@@ -1,26 +1,81 @@
+#from _typeshed import WriteableBuffer
 import threading
 import timeit
 
+import os, platform, sys
+
+import statistics # median calculation
+
 # Todos :
-# Stworzyc obiekt do raportowania
-# W obiekcie do raportowania wyliczac mediane dla poszczegolnych wynikow
-# powtoryzc wielokrotnie probe
+# DONE -> Stworzyc obiekt do raportowania
+# DONE -> W obiekcie do raportowania wyliczac mediane dla poszczegolnych wynikow
+# DOBE -> powtoryzc wielokrotnie probe
 # stworzyc generator do formatu Html
 # Dodac wiele procesow, ktore realizuja zadanie
-# zorganizowac glowny kod wykonujacy threadingsy w jakas zgrabna petle, funkcje czy tez obiekt
+# InProgress -> zorganizowac glowny kod wykonujacy threadingsy w jakas zgrabna petle, funkcje czy tez obiekt
 
+# Glowne zadanie !!
+# """
 Values = [15972490, 80247910, 92031257, 75940266,
             97986012, 87599664, 75231321, 11138524,
             68870499, 11872796, 79132533, 40649382,
             63886074, 53146293, 36914087, 62770938]
-
+# """
 
 #Values = [15972490, 80247910, 92031257,  75940266]
 
 #Values = [20, 40, 50, 20]
 
 
+# Raport data 
+class Raport:
+    def __init__(self):
+        self.probes = []
+        self.testDescription = ""
+        self.pythonVersion =""
+        self.interpreterName = ""
+        self.interpreterVersion = ""
+        self.operatingSystem = ""
+        self.operatingSysVersion = ""
+        self.processor = ""
+        self.cpus = ""
 
+    def setSystemInterpreterAndProcessorInfo(self):
+        self.pythonVersion = platform.python_version()
+        self.interpreterName = platform.python_implementation()
+        self.interpreterVersion = sys.version
+        self.operatingSys = platform.system()    
+        self.operatingSysVersion = platform.release()
+        self.processor = platform.processor()
+        self.cpus = os.cpu_count()
+
+    def addProbe(self, probe):
+        self.probes.append(probe)
+
+    def getListOfAllProbes(self):
+        return self.probes
+
+    def getMedianOfAllProbes(self):
+        medianValue = statistics.median(self.probes)
+        return medianValue
+
+    def getTestDescription(self):
+        return self.testDescription
+
+    def setTestDescription(self, testDescr):
+        self.testDescription = testDescr
+
+    def printSystemInterpreterAndProcessorInfo(self):
+        print(f"{self.pythonVersion}")
+        print(f"{self.interpreterName}")
+        print(f"{self.interpreterVersion}")
+        print(f"{self.operatingSys}")
+        print(f"{self.operatingSysVersion}")
+        print(f"{self.processor}")
+        print(f"{self.cpus}")
+
+    
+# Main calculation  
 def calculation(values, start, end):
     for j in range(start, end):
         i = 1
@@ -31,9 +86,33 @@ def calculation(values, start, end):
 
 
 
-
 def main():
+
+    c = Raport()
+    c.setTestDescription("4 watki testowe")
+    c.setSystemInterpreterAndProcessorInfo()
+
+    c.addProbe(25.541)
+    c.addProbe(23.542)
+    c.addProbe(27.543)
+    c.addProbe(23.544)
+    c.addProbe(25.545)
+    c.addProbe(22.546)
+
+    testy = c.getListOfAllProbes()
+    mediana = c.getMedianOfAllProbes()
+
+    print(f"Baza testow: {testy}")
+    print(f"Mediana testow: {mediana}")
+    c.printSystemInterpreterAndProcessorInfo()
+
+    a = input("Stop ! Nic nie wciskaj ! ")
+
+
+
     #print(timeit.timeit(funkcja(Values), 1))
+
+
 
     # jeden watek
     start = timeit.default_timer()
@@ -44,7 +123,7 @@ def main():
     result = end - start
     print(f"Jeden watek {result} sekund")
 
-    # dwa watki
+    # cztery watki
     start = timeit.default_timer()
     t1 = threading.Thread(target = calculation, args = (Values,0,3),)
     t2 = threading.Thread(target = calculation, args = (Values,4,7),)
