@@ -7,12 +7,9 @@ import Raport
 
 
 # Todos :
-# DONE -> Stworzyc obiekt do raportowania
-# DONE -> W obiekcie do raportowania wyliczac mediane dla poszczegolnych wynikow
-# DOBE -> powtoryzc wielokrotnie probe
-# stworzyc generator do formatu Html
-# Dodac wiele procesow, ktore realizuja zadanie
-# InProgress -> zorganizowac glowny kod wykonujacy threadingsy w jakas zgrabna petle, funkcje czy tez obiekt
+# Pobawic sie raport generatorem i wstepnie wygenerowac raport podmieniajac wartosci 
+# Dodac cztery procesy
+# Pobrac dane z pliku
 
 # Glowne zadanie !!
 # """
@@ -47,31 +44,65 @@ def performThreadingTest(values, thread):
 
 def main():
 
-    c = Raport()
-    c.setTestDescription("4 watki testowe")
-    c.setSystemInterpreterAndProcessorInfo()
+    ListaRaportow = []
 
-    c.addProbe(25.541)
-    c.addProbe(23.542)
-    c.addProbe(27.543)
-    c.addProbe(23.544)
-    c.addProbe(25.545)
-    c.addProbe(22.546)
+    # !! SYMULACJA TESTOW I ZBIERANIA DANYCH DO RAPORTOW !!
+    
+    # 1x thread
+    Raport2 = Raport.Raport()
+    Raport2.setTestDescription("1 thread")
+    Raport2.setSystemInterpreterAndProcessorInfo()
 
-    testy = c.getListOfAllProbes()
-    mediana = c.getMedianOfAllProbes()
+    Raport2.addProbe(35.5411)
+    Raport2.addProbe(33.5422)
+    Raport2.addProbe(37.5433)
+    Raport2.addProbe(33.5444)
+    Raport2.addProbe(35.5455)
+    
+    # 4x threads
+    Raport1 = Raport.Raport()
+    Raport1.setTestDescription("4 threads")
+    Raport1.setSystemInterpreterAndProcessorInfo()
 
-    print(f"Baza testow: {testy}")
-    print(f"Mediana testow: {mediana}")
-    c.printSystemInterpreterAndProcessorInfo()
+    Raport1.addProbe(25.5411)
+    Raport1.addProbe(23.5422)
+    Raport1.addProbe(27.5433)
+    Raport1.addProbe(23.5444)
+    Raport1.addProbe(25.5455)
 
-    a = input("Stop ! Nic nie wciskaj ! ")
+    # 4x processes
+    Raport3 = Raport.Raport()
+    Raport3.setTestDescription("4 processes")
+    Raport3.setSystemInterpreterAndProcessorInfo()
+
+    Raport3.addProbe(15.5411)
+    Raport3.addProbe(13.5422)
+    Raport3.addProbe(17.5433)
+    Raport3.addProbe(13.5444)
+    Raport3.addProbe(15.5455)
+
+    # Dodanie raportow
+    ListaRaportow.append(Raport1)
+    ListaRaportow.append(Raport2)
+    ListaRaportow.append(Raport3)
 
 
+    a = input("Stop ! Rapoty zebrane wcisnij enter by wydrukowac dane! ")
+
+    # Wydruki raportow : 
+    print("Dostepne raporty : ")
+    for e in ListaRaportow:
+        print(" ", e.getTestDescription())
+        print(" ", e.getMedianOfAllProbes())
+
+    a = input("Stop ! Nic nie wciskaj! ")
 
     #print(timeit.timeit(funkcja(Values), 1))
 
 
+
+    # tutaj chilowo zablokowane
+'''
 
     # jeden watek
     start = timeit.default_timer()
@@ -102,6 +133,8 @@ def main():
     end = timeit.default_timer()
     result = end - start
     print(f"4x watek {result} sekund") 
+
+'''
 
 if __name__ == "__main__":
     main()
