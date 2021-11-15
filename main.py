@@ -27,6 +27,16 @@ Values = [15972490, 80247910, 92031257, 75940266,
 #Values = [20, 40, 50, 20]
 
 
+# Main calculation  
+def calculation(values, start, end):
+    for j in range(start, end):
+        i = 1
+        result = 0
+        for n in range(1, values[j]): 
+            result = result + (n-i) * i
+            i += 1
+
+
 # Raport data 
 class Raport:
     def __init__(self):
@@ -74,16 +84,14 @@ class Raport:
         print(f"{self.processor}")
         print(f"{self.cpus}")
 
-    
-# Main calculation  
-def calculation(values, start, end):
-    for j in range(start, end):
-        i = 1
-        result = 0
-        for n in range(1, values[j]): 
-            result = result + (n-i) * i
-            i += 1
 
+# Run threads
+# values - list with values for calculations
+# thread - number of threads to perform calculations 
+def performThreadingTest(values, thread):
+    threadRun = []
+    for i in thread:
+        threadRun[i] = threading.Thread(target = calculation, args = (values,0,3),)
 
 
 def main():
@@ -122,6 +130,7 @@ def main():
     end = timeit.default_timer()
     result = end - start
     print(f"Jeden watek {result} sekund")
+
 
     # cztery watki
     start = timeit.default_timer()
