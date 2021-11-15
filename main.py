@@ -2,9 +2,9 @@
 import threading
 import timeit
 
-import os, platform, sys
+import Raport
 
-import statistics # median calculation
+
 
 # Todos :
 # DONE -> Stworzyc obiekt do raportowania
@@ -35,55 +35,6 @@ def calculation(values, start, end):
         for n in range(1, values[j]): 
             result = result + (n-i) * i
             i += 1
-
-
-# Raport data 
-class Raport:
-    def __init__(self):
-        self.probes = []
-        self.testDescription = ""
-        self.pythonVersion =""
-        self.interpreterName = ""
-        self.interpreterVersion = ""
-        self.operatingSystem = ""
-        self.operatingSysVersion = ""
-        self.processor = ""
-        self.cpus = ""
-
-    def setSystemInterpreterAndProcessorInfo(self):
-        self.pythonVersion = platform.python_version()
-        self.interpreterName = platform.python_implementation()
-        self.interpreterVersion = sys.version
-        self.operatingSys = platform.system()    
-        self.operatingSysVersion = platform.release()
-        self.processor = platform.processor()
-        self.cpus = os.cpu_count()
-
-    def addProbe(self, probe):
-        self.probes.append(probe)
-
-    def getListOfAllProbes(self):
-        return self.probes
-
-    def getMedianOfAllProbes(self):
-        medianValue = statistics.median(self.probes)
-        return medianValue
-
-    def getTestDescription(self):
-        return self.testDescription
-
-    def setTestDescription(self, testDescr):
-        self.testDescription = testDescr
-
-    def printSystemInterpreterAndProcessorInfo(self):
-        print(f"{self.pythonVersion}")
-        print(f"{self.interpreterName}")
-        print(f"{self.interpreterVersion}")
-        print(f"{self.operatingSys}")
-        print(f"{self.operatingSysVersion}")
-        print(f"{self.processor}")
-        print(f"{self.cpus}")
-
 
 # Run threads
 # values - list with values for calculations
