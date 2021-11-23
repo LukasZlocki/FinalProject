@@ -5,7 +5,7 @@ import statistics # median calculation
 
 class Raport:
     def __init__(self):
-        self.probesMediana = []
+        self.probes = []
         self.testDescription = ""
         self.pythonVersion =""
         self.interpreterName = ""
@@ -31,8 +31,8 @@ class Raport:
         self.testDescription = testDescr
 
     # adding probe to 
-    def addProbeMediana(self, probe):
-        self.probesMediana.append(probe)
+    def addProbe(self, probe):
+        self.probes.append(probe)
 
 
     # GETTERS
@@ -40,8 +40,8 @@ class Raport:
         return self.probes
 
     def getMedianOfAllProbes(self):
-        #medianValue = statistics.median(self.probes)
-        return self.probesMediana[0]
+        medianValue = statistics.median(self.probes)
+        return medianValue 
 
     def getTestDescription(self):
         return self.testDescription
