@@ -177,9 +177,11 @@ class RaportGenerator:
         html = "" + self.Html_Header() + "" + self.Html_Environment() + "" + self.Html_TestResults() + "" + self.Html_Summary() + "" + self.Html_Footer()
         return html
 
-    def saveHtml(self):
-        header = self.assemblyAllHtmls()
-        with open('htmlo.html', 'w') as file:
-            file.write(header)
+    def saveToHtml(self):
+        html = self.assemblyAllHtmls()
+        userName = input("Give a name of generated raport: ")
+        fileName = userName + ".html"
+        with open(fileName, 'w') as file:
+            file.write(html)
 
 
