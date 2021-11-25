@@ -61,8 +61,6 @@ def performMultithreadingTest(values, threads):
 
 def main():
 
-    RaportsList = [] 
-
     raport_1xMultiThreading = Raport()
     raport_4xMultiThreading = Raport()
     raport_4xMultiProcessing = Raport()
@@ -117,6 +115,18 @@ def main():
                 result = end - start
                 raport_CpusMultiProcessing.addProbe(result) # adding result to raport
             print(f"{message} {round(result, 3)} seconds")
+
+    # Adding finished raports to list of raports
+    raportsList = []
+    raportsList.append(raport_1xMultiThreading)
+    raportsList.append(raport_4xMultiThreading)
+    raportsList.append(raport_4xMultiProcessing)
+    raportsList.append(raport_CpusMultiProcessing)
+
+    # Generating raport and saving to HTML file
+    raportGenerator = RaportGenerator(raportsList)
+    raportGenerator.saveToHtml()
+    
 
 
 if __name__ == "__main__":
