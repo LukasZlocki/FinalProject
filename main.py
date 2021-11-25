@@ -11,8 +11,9 @@ from RaportGenerator import RaportGenerator
 
 
 # Todos :
-# Dodac obliczenia na procesach, ktorych liczba zalezy od liczby dostepnych procesorow w systemie
 # Pobrac dane z pliku
+
+# done - Dodac obliczenia na procesach, ktorych liczba zalezy od liczby dostepnych procesorow w systemie
 # done - Pobawic sie raport generatorem i wstepnie wygenerowac raport podmieniajac wartosci 
 # done - Dodac obliczanie na cztery procesy
 
@@ -91,7 +92,7 @@ def main():
                 message = "Test 1x multithreading"
                 end = timeit.default_timer()
                 result = end - start
-                raport_1xMultiThreading.addProbe(result) # adding result to raport
+                raport_1xMultiThreading.addProbe(result) # adding result to raport             
 
             if (test == 1): # 4x multithreating test
                 performMultithreadingTest(Values, 4)
