@@ -30,8 +30,10 @@ class Raport:
     def setTestDescription(self, testDescr):
         self.testDescription = testDescr
 
+
     # adding probe to 
     def addProbe(self, probe):
+        probe = round(probe, 3)
         self.probes.append(probe)
 
 
@@ -45,6 +47,10 @@ class Raport:
 
     def getTestDescription(self):
         return self.testDescription
+
+    # return number of CPUs of the tested system
+    def getCpusNumber(self):
+        return self.cpus
 
     def printSystemInterpreterAndProcessorInfo(self):
         print(f"{self.pythonVersion}")
