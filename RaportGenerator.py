@@ -18,7 +18,8 @@ class RaportGenerator:
 
 
     def Html_Header(self):
-        htmlPart1 = '''<!DOCTYPE html>
+        htmlPart1 = '''
+        <!DOCTYPE html>
         <html>
         <head>
         <title>Multithreading/Multiprocessing benchmark results</title>
@@ -58,6 +59,9 @@ class RaportGenerator:
         </style>
         </head>
         <body>
+        <h1>Multithreading/Multiprocessing benchmark results</h1>
+        <p>
+        </p>
         '''      
         return htmlPart1
 
@@ -82,10 +86,10 @@ class RaportGenerator:
             <table>
             <tr>
                 <th>Execution:</th>
-                <th>{self.raport[0].testDescription} (s)</th>
-                <th>{self.raport[1].testDescription} (s)</th>
-                <th>{self.raport[2].testDescription} (s)</th>
-                <th>processes based on number of CPUs (s)</th>
+                <th>{self.raport[0].getTestDescription()}</th>
+                <th>{self.raport[1].getTestDescription()}</th>
+                <th>{self.raport[2].getTestDescription()}</th>
+                <th>{self.raport[3].getTestDescription()}</th>
             </tr>
 
             <tr>
@@ -93,7 +97,7 @@ class RaportGenerator:
                 <td>{self.raport[0].probes[0]}</td>
                 <td>{self.raport[1].probes[0]}</td>
                 <td>{self.raport[2].probes[0]}</td>
-                <td>4.038</td>
+                <td>{self.raport[3].probes[0]}</td>
             </tr>
 
             <tr>
@@ -101,7 +105,7 @@ class RaportGenerator:
                 <td>{self.raport[0].probes[1]}</td>
                 <td>{self.raport[1].probes[1]}</td>
                 <td>{self.raport[2].probes[1]}</td>
-                <td>3.760</td>
+                <td>{self.raport[3].probes[1]}</td>
             </tr>
 
             <tr>
@@ -109,7 +113,7 @@ class RaportGenerator:
                 <td>{self.raport[0].probes[2]}</td>
                 <td>{self.raport[1].probes[2]}</td>
                 <td>{self.raport[2].probes[2]}</td>
-                <td>3.902</td>
+                <td>{self.raport[3].probes[2]}</td>
             </tr>
 
             <tr>
@@ -117,7 +121,7 @@ class RaportGenerator:
                 <td>{self.raport[0].probes[3]}</td>
                 <td>{self.raport[1].probes[3]}</td>
                 <td>{self.raport[2].probes[3]}</td>
-                <td>3.786</td>
+                <td>{self.raport[3].probes[3]}</td>
             </tr>
 
             <tr>
@@ -125,7 +129,7 @@ class RaportGenerator:
                 <td>{self.raport[0].probes[4]}</td>
                 <td>{self.raport[1].probes[4]}</td>
                 <td>{self.raport[2].probes[4]}</td>
-                <td>4.266</td>
+                <td>{self.raport[3].probes[4]}</td>
             </tr>
 
             </table>'''           
@@ -138,10 +142,10 @@ class RaportGenerator:
             <table>
             <tr>
                 <th>Execution:</th>
-                <th>1&nbsp;thread (s)</th>
-                <th>4&nbsp;threads (s)</th>
-                <th>4&nbsp;processes (s)</th>
-                <th>processes based on number of CPUs (s)</th>
+                <th>{self.raport[0].getTestDescription()}</th>
+                <th>{self.raport[1].getTestDescription()}</th>
+                <th>{self.raport[2].getTestDescription()}</th>
+                <th>{self.raport[3].getTestDescription()}</th>
             </tr>
 
             <tr>
@@ -149,7 +153,7 @@ class RaportGenerator:
                 <td>{self.raport[0].getMedianOfAllProbes()}</td>
                 <td>{self.raport[1].getMedianOfAllProbes()}</td>
                 <td>{self.raport[2].getMedianOfAllProbes()}</td>
-                <td>3.902</td>
+                <td>{self.raport[3].getMedianOfAllProbes()}</td>
             </tr>
 
             </table>'''   
