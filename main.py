@@ -11,19 +11,20 @@ from RaportGenerator import RaportGenerator
 
 
 # Todos :
-# InProgress - Dodac obliczanie na cztery procesy
-# Dodac obliczenia na procesach, ktorych liczba zalezy od liczby dostepnych procesow w systemie
+# Dodac obliczenia na procesach, ktorych liczba zalezy od liczby dostepnych procesorow w systemie
 # Pobrac dane z pliku
 # done - Pobawic sie raport generatorem i wstepnie wygenerowac raport podmieniajac wartosci 
+# done - Dodac obliczanie na cztery procesy
 
 
 # Glowne zadanie !!
+
 """
 Values = [15972490, 80247910, 92031257, 75940266,
             97986012, 87599664, 75231321, 11138524,
             68870499, 11872796, 79132533, 40649382,
             63886074, 53146293, 36914087, 62770938]
- """
+"""
 
 
 Values = [10, 20, 30, 40,
@@ -33,18 +34,7 @@ Values = [10, 20, 30, 40,
 
 
 # Main calculation  
-def calculation(values, start, end):
-    for j in range(start, end):
-        i = 1
-        result = 0
-        for n in range(1, values[j]): 
-            result = result + (n-i) * i
-            i += 1
-
-
-# Main calculation  
-def calculation_X(value):
-    start = 1
+def calculation(value):
     end = value
     i = 1
     result = 0
@@ -53,73 +43,86 @@ def calculation_X(value):
         i += 1
 
 
-# 1x threading test
-def perform1xThreadingTest(values):   
-    t1 = threading.Thread(target = calculation, args = (Values, 0, 15),)
-    t1.start()
-    t1.join()
-
-
-# 4x threadings test
-def perform4xThreadingsTest(values):
-    t1 = threading.Thread(target = calculation, args = (Values,0,3),)
-    t2 = threading.Thread(target = calculation, args = (Values,4,7),)
-    t3 = threading.Thread(target = calculation, args = (Values,8,11),)
-    t4 = threading.Thread(target = calculation, args = (Values,12,15),)
-
-    t1.start()
-    t2.start()
-    t3.start()
-    t4.start()
-
-    t1.join()
-    t2.join()
-    t3.join()
-    t4.join()
-
-
-# 4x multiprocess test
-def perform4xMultiprocessTest(values):
-    p1 = multiprocessing.Process(target=calculation, args=(Values,0,3),)
-    p2 = multiprocessing.Process(target=calculation, args=(Values,4,7),)
-    p3 = multiprocessing.Process(target=calculation, args=(Values,8,11),)
-    p4 = multiprocessing.Process(target=calculation, args=(Values,12,15),)
-
-    p1.start()
-    p2.start()
-    p3.start()
-    p4.start()
-
-    p1.join()
-    p2.join()
-    p3.join()
-    p4.join()
-
-
+# Multiprocess Test
+# values - list of data for calculation
+# processes - number of processes to perform calculations 
 def performMultiprocessTest(values, processes):
     with multiprocessing.Pool(processes=processes) as pool:
-        pool.map(calculation_X, values)
+        pool.map(calculation, values)
 
+
+# Multithreading Test
+# values - list of data for calculation
+# processes - number of threadings to perform calculations 
 def performMultithreadingTest(values, threads):
     with ThreadPoolExecutor(max_workers=threads) as executor:
-        executor.map(calculation_X, values)
+        executor.map(calculation, values)
 
-
-
-""""
-# Run threads
-# values - list with values for calculations
-# thread - number of threads to perform calculations 
-def performThreadingTest(values, thread):
-    threadRun = []
-    for i in thread:
-        threadRun[i] = threading.Thread(target = calculation, args = (values,0,3),)
-"""
 
 def main():
 
+    RaportsList = [] 
 
-    ListaRaportow = []
+    raport_1xMultiThreading = Raport()
+    raport_4xMultiThreading = Raport()
+    raport_4xMultiProcessing = Raport()
+    raport_CpusMultiProcessing = Raport()
+    
+    # Setting test description
+    raport_1xMultiThreading.setTestDescription("1 thread (s)")
+    raport_4xMultiThreading.setTestDescription("4 threads (s)")
+    raport_4xMultiProcessing.setTestDescription("4 processes (s)")
+    raport_CpusMultiProcessing.setTestDescription("process based on number of CPUs (s)")
+
+    # Setting system, interpreter and processor information
+    raport_1xMultiThreading.setSystemInterpreterAndProcessorInfo()
+    raport_4xMultiThreading.setSystemInterpreterAndProcessorInfo()
+    raport_4xMultiProcessing.setSystemInterpreterAndProcessorInfo()
+    raport_CpusMultiProcessing.setSystemInterpreterAndProcessorInfo()
+
+    print("Performing test")
+    for test in range(4):
+
+        for recurrence in range(5):
+            start = timeit.default_timer()
+            end = 0
+            message = ""
+
+            if (test == 0 ): # 1x multithreading test
+                performMultithreadingTest(Values, 1)
+                message = "Test 1x multithreading"
+                end = timeit.default_timer()
+                result = end - start
+                raport_1xMultiThreading.addProbe(result) # adding result to raport
+
+            if (test == 1): # 4x multithreating test
+                performMultithreadingTest(Values, 4)
+                message = "Test 4x multithreading"
+                end = timeit.default_timer()
+                result = end - start
+                raport_4xMultiThreading.addProbe(result) # adding result to raport  
+
+            if (test == 2): # 4x multiprocessing test 
+                performMultiprocessTest(Values, 4)
+                message = "Test 4x multiprocessing" 
+                end = timeit.default_timer()
+                result = end - start
+                raport_4xMultiProcessing.addProbe(result) # adding result to raport
+
+            if (test == 3): # multiprocessing test accoring to CPUs available
+                cpus = raport_CpusMultiProcessing.getCpusNumber()
+                performMultiprocessTest(Values, cpus)
+                message = f"Test multiprocess according to number of CPUs ({cpus}):" 
+                end = timeit.default_timer()
+                result = end - start
+                raport_CpusMultiProcessing.addProbe(result) # adding result to raport
+            print(f"{message} {round(result, 3)} seconds")
+
+
+if __name__ == "__main__":
+    main()
+
+
 
     # !! SYMULACJA TESTOW I ZBIERANIA DANYCH DO RAPORTOW !!
     """"
@@ -185,103 +188,45 @@ def main():
 
     #print(timeit.timeit(funkcja(Values), 1))
 
-"""
+    """
 
-    # tutaj chilowo zablokowane
 
     """
-    # jeden watek
-    start = timeit.default_timer()
-    t1 = threading.Thread(target = calculation, args = (Values, 0, 15),)
-    t1.start()
-    t1.join()
-    end = timeit.default_timer()
-    result = end - start
-    print(f"1x watek {result} sekund")
-
-
-    # cztery watki
-    start = timeit.default_timer()
-    t1 = threading.Thread(target = calculation, args = (Values, 0, 15),)
-    t1.start()
-    t1.join()
-    end = timeit.default_timer()
-    result = end - start
-    print(f"4x watek {result} sekund")
-
-
-
-    start = timeit.default_timer()
-    t1 = threading.Thread(target = calculation, args = (Values,0,3),)
-    t2 = threading.Thread(target = calculation, args = (Values,4,7),)
-    t3 = threading.Thread(target = calculation, args = (Values,8,11),)
-    t4 = threading.Thread(target = calculation, args = (Values,12,15),)
-
-    t1.start()
-    t2.start()
-    t3.start()
-    t4.start()
-
-    t1.join()
-    t2.join()
-    t3.join()
-    t4.join()
-    end = timeit.default_timer()
-    result = end - start
-    print(f"4x watek {result} sekund") 
-"""
-
-    # Testy 1x threating
-    print("Test 1x threating")
-    start = timeit.default_timer()
-    perform1xThreadingTest(Values)
-    end = timeit.default_timer()
-    result = end - start
-    print(f"1x threating {result} sekund")
-
-    # Testy 4x threating
-    print("Testy 4x threatings")
-    start = timeit.default_timer()
-    perform4xThreadingsTest(Values)
-    end = timeit.default_timer()
-    result = end - start
-    print(f"4x threating {result} sekund")
-
-    # Testy 4x multiprocessing
-    print("Test 4x multiprocess")
-    start = timeit.default_timer()
-    perform4xMultiprocessTest(Values)
-    end = timeit.default_timer()
-    result = end - start
-    print(f"4x multiprocess {result} sekund")
-    
-    print("")
-    print ("**** Testy skroconej formy ****" )
-
-    # Testy 1x multiprocessing by pool
-    print("Test 1x multithreading POOL")
+    # 1x multithreading 
+    print("Test 1x multithreading")
     start = timeit.default_timer()
     performMultithreadingTest(Values, 1)
     end = timeit.default_timer()
     result = end - start
-    print(f"1x multithreading POOL {result} sekund")
+    print(f"1x multithreading: {round(result, 3)} sekund")
+    raport_1xMultiThreading.addProbe(result) # adding result to raport
 
-    # Testy 4x multithreating by pool
-    print("Test 4x multithreating by POOL")
+    # 4x multithreating 
+    print("Test 4x multithreating")
     start = timeit.default_timer()
     performMultithreadingTest(Values, 4)
     end = timeit.default_timer()
     result = end - start
-    print(f"4x multithreating POOL {result} sekund")
+    print(f"4x multithreating: {round(result, 3)} sekund")
+    raport_4xMultiThreading.addProbe(result) # adding result to raport
 
-    # Testy 4x multiprocessing by pool
-    print("Test 4x multiprocess POOL")
+    # 4x multiprocessing 
+    print("Test 4x multiprocess")
     start = timeit.default_timer()
     performMultiprocessTest(Values, 4)
     end = timeit.default_timer()
     result = end - start
-    print(f"4x multiprocess POOL {result} sekund")
+    print(f"4x multiprocess: {round(result, 3)} sekund")
+    raport_4xMultiProcessing.addProbe(result) # adding result to raport
 
-
-if __name__ == "__main__":
-    main()
+    # multiprocessing according to CPUs
+    cpus = raport_CpusMultiProcessing.getCpusNumber()
+    print("Test multiprocess according to number of CPUs: ")
+    for _ in range(5):
+        start = timeit.default_timer()
+        performMultiprocessTest(Values, cpus)
+        end = timeit.default_timer()
+        result = end - start
+        print(f"multiprocess by {cpus} CPUs: {round(result, 3)} sekund")
+        raport_CpusMultiProcessing.addProbe(result) # adding result to raport
+    """
