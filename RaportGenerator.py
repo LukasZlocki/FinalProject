@@ -94,42 +94,42 @@ class RaportGenerator:
 
             <tr>
                 <td>1</td>
-                <td>{self.raport[0].probes[0]}</td>
-                <td>{self.raport[1].probes[0]}</td>
-                <td>{self.raport[2].probes[0]}</td>
-                <td>{self.raport[3].probes[0]}</td>
+                <td>{'{:.3f}'.format(self.raport[0].probes[0])}</td>
+                <td>{'{:.3f}'.format(self.raport[1].probes[0])}</td>
+                <td>{'{:.3f}'.format(self.raport[2].probes[0])}</td>
+                <td>{'{:.3f}'.format(self.raport[3].probes[0])}</td>
             </tr>
 
             <tr>
                 <td>2</td>
-                <td>{self.raport[0].probes[1]}</td>
-                <td>{self.raport[1].probes[1]}</td>
-                <td>{self.raport[2].probes[1]}</td>
-                <td>{self.raport[3].probes[1]}</td>
+                <td>{'{:.3f}'.format(self.raport[0].probes[1])}</td>
+                <td>{'{:.3f}'.format(self.raport[1].probes[1])}</td>
+                <td>{'{:.3f}'.format(self.raport[2].probes[1])}</td>
+                <td>{'{:.3f}'.format(self.raport[3].probes[1])}</td>
             </tr>
 
             <tr>
                 <td>3</td>
-                <td>{self.raport[0].probes[2]}</td>
-                <td>{self.raport[1].probes[2]}</td>
-                <td>{self.raport[2].probes[2]}</td>
-                <td>{self.raport[3].probes[2]}</td>
+                <td>{'{:.3f}'.format(self.raport[0].probes[2])}</td>
+                <td>{'{:.3f}'.format(self.raport[1].probes[2])}</td>
+                <td>{'{:.3f}'.format(self.raport[2].probes[2])}</td>
+                <td>{'{:.3f}'.format(self.raport[3].probes[2])}</td>
             </tr>
 
             <tr>
                 <td>4</td>
-                <td>{self.raport[0].probes[3]}</td>
-                <td>{self.raport[1].probes[3]}</td>
-                <td>{self.raport[2].probes[3]}</td>
-                <td>{self.raport[3].probes[3]}</td>
+                <td>{'{:.3f}'.format(self.raport[0].probes[3])}</td>
+                <td>{'{:.3f}'.format(self.raport[1].probes[3])}</td>
+                <td>{'{:.3f}'.format(self.raport[2].probes[3])}</td>
+                <td>{'{:.3f}'.format(self.raport[3].probes[3])}</td>
             </tr>
 
             <tr>
                 <td>5</td>
-                <td>{self.raport[0].probes[4]}</td>
-                <td>{self.raport[1].probes[4]}</td>
-                <td>{self.raport[2].probes[4]}</td>
-                <td>{self.raport[3].probes[4]}</td>
+                <td>{'{:.3f}'.format(self.raport[0].probes[4])}</td>
+                <td>{'{:.3f}'.format(self.raport[1].probes[4])}</td>
+                <td>{'{:.3f}'.format(self.raport[2].probes[4])}</td>
+                <td>{'{:.3f}'.format(self.raport[3].probes[4])}</td>
             </tr>
 
             </table>'''           
@@ -150,10 +150,10 @@ class RaportGenerator:
 
             <tr>
                 <td>Median:</td>
-                <td>{self.raport[0].getMedianOfAllProbes()}</td>
-                <td>{self.raport[1].getMedianOfAllProbes()}</td>
-                <td>{self.raport[2].getMedianOfAllProbes()}</td>
-                <td>{self.raport[3].getMedianOfAllProbes()}</td>
+                <td>{'{:.3f}'.format(self.raport[0].getMedianOfAllProbes())}</td>
+                <td>{'{:.3f}'.format(self.raport[1].getMedianOfAllProbes())}</td>
+                <td>{'{:.3f}'.format(self.raport[2].getMedianOfAllProbes())}</td>
+                <td>{'{:.3f}'.format(self.raport[3].getMedianOfAllProbes())}</td>
             </tr>
 
             </table>'''   
