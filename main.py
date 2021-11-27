@@ -1,32 +1,33 @@
-#from _typeshed import WriteableBuffer
-import threading
 import multiprocessing
 from concurrent.futures import ThreadPoolExecutor
-
-import timeit
-
-from Raport import Raport
-from RaportGenerator import RaportGenerator
+import timeit 
+from Report import Report
+from ReportGenerator import ReportGenerator
 
 
-# Todos :
+# ToDo:
+# kod programu jest zgodny z dokumentem PEP8 (programpycodestyle nie wypisuje komunikatów o błędach),
+# Wygenerowac raport na interpreterach : CPython,
+# Wygenerowac raport na interpreterach : PyPy,
+# Wygenerowac raport na interpreterach : Stackless Python,
+# Ogolny clean up kodu w poszczegolnych klasach - uwaga niektore obiekty maja nieuzywane metody
 
 
-# returns list of values
-def readingValuesFromFile(fileName):
+# returns list of values 
+def reading_values_from_file(file_name):
     values = 0
-    with open(fileName, "r") as file:
+    with open(file_name, "r") as file:
         data = file.readlines()
         # removing '\n' from list of strings
-        String = [x.strip()for x in data ]
+        string = [x.strip() for x in data]
         # Creating string with values
-        valuesString = ""
-        for element in String:
-            valuesString += element
-        valuesString = valuesString.replace(" ", "")
-        valueStringSplitted = valuesString.split(",")
+        values_string = ""
+        for element in string:
+            values_string += element
+        values_string = values_string.replace(" ", "")
+        value_string_splitted = values_string.split(",")
         # Converting stringValues to int list
-        values = [int(x) for x in valueStringSplitted]
+        values = [int(x) for x in value_string_splitted]
     return values
 
 
@@ -43,7 +44,7 @@ def calculation(value):
 # Multiprocess Test
 # values - list of data for calculation
 # processes - number of processes to perform calculations 
-def performMultiprocessTest(values, processes):
+def perform_multiprocess_test(values, processes):
     with multiprocessing.Pool(processes=processes) as pool:
         pool.map(calculation, values)
 
@@ -51,7 +52,7 @@ def performMultiprocessTest(values, processes):
 # Multithreading Test
 # values - list of data for calculation
 # processes - number of threadings to perform calculations 
-def performMultithreadingTest(values, threads):
+def perform_multithreading_test(values, threads):
     with ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(calculation, values)
 
@@ -59,78 +60,75 @@ def performMultithreadingTest(values, threads):
 # Main function
 def main():
 
-    Values = readingValuesFromFile("task2.txt") 
-    print(Values)
-    
-    c = input("spacja kontynuacja")
-    
-    raport_1xMultiThreading = Raport()
-    raport_4xMultiThreading = Raport()
-    raport_4xMultiProcessing = Raport()
-    raport_CpusMultiProcessing = Raport()
+    values = reading_values_from_file("task3.txt")
+    print("Test probe values : ")
+    print(values)
+
+    # Creating raporting objects  
+    raport_1x_multi_threading = Report()
+    raport_4x_multi_threading = Report()
+    raport_4x_multi_processing = Report()
+    raport_cpus_multi_processing = Report()
     
     # Setting test description
-    raport_1xMultiThreading.setTestDescription("1 thread (s)")
-    raport_4xMultiThreading.setTestDescription("4 threads (s)")
-    raport_4xMultiProcessing.setTestDescription("4 processes (s)")
-    raport_CpusMultiProcessing.setTestDescription("process based on number of CPUs (s)")
+    raport_1x_multi_threading.set_test_description("1 thread (s)")
+    raport_4x_multi_threading.set_test_description("4 threads (s)")
+    raport_4x_multi_processing.set_test_description("4 processes (s)")
+    raport_cpus_multi_processing.set_test_description("process based on number of CPUs (s)")
 
     # Setting system, interpreter and processor information
-    raport_1xMultiThreading.setSystemInterpreterAndProcessorInfo()
-    raport_4xMultiThreading.setSystemInterpreterAndProcessorInfo()
-    raport_4xMultiProcessing.setSystemInterpreterAndProcessorInfo()
-    raport_CpusMultiProcessing.setSystemInterpreterAndProcessorInfo()
+    raport_1x_multi_threading.set_system_interpreter_and_processor_info()
+    raport_4x_multi_threading.set_system_interpreter_and_processor_info()
+    raport_4x_multi_processing.set_system_interpreter_and_processor_info()
+    raport_cpus_multi_processing.set_system_interpreter_and_processor_info()
 
-    print("Performing test")
+    print("Performing test...")
     for test in range(4):
-
         for recurrence in range(5):
             start = timeit.default_timer()
-            end = 0
             message = ""
 
-            if (test == 0 ): # 1x multithreading test
-                performMultithreadingTest(Values, 1)
+            if test == 0:  # 1x multithreading test
+                perform_multithreading_test(values, 1)
                 message = "Test 1x multithreading"
                 end = timeit.default_timer()
                 result = end - start
-                raport_1xMultiThreading.addProbe(result) # adding result to raport             
+                raport_1x_multi_threading.add_probe(result) # adding result to report
 
-            if (test == 1): # 4x multithreating test
-                performMultithreadingTest(Values, 4)
+            if test == 1:  # 4x multithreating test
+                perform_multithreading_test(values, 4)
                 message = "Test 4x multithreading"
                 end = timeit.default_timer()
                 result = end - start
-                raport_4xMultiThreading.addProbe(result) # adding result to raport  
+                raport_4x_multi_threading.add_probe(result) # adding result to report
 
-            if (test == 2): # 4x multiprocessing test 
-                performMultiprocessTest(Values, 4)
+            if test == 2:  # 4x multiprocessing test
+                perform_multiprocess_test(values, 4)
                 message = "Test 4x multiprocessing" 
                 end = timeit.default_timer()
                 result = end - start
-                raport_4xMultiProcessing.addProbe(result) # adding result to raport
+                raport_4x_multi_processing.add_probe(result) # adding result to report
 
-            if (test == 3): # multiprocessing test accoring to CPUs available
-                cpus = raport_CpusMultiProcessing.getCpusNumber()
-                performMultiprocessTest(Values, cpus)
+            if test == 3:  # multiprocessing test according to CPUs available
+                cpus = raport_cpus_multi_processing.get_cpus_quantity()
+                perform_multiprocess_test(values, cpus)
                 message = f"Test multiprocess according to number of CPUs ({cpus}):" 
                 end = timeit.default_timer()
                 result = end - start
-                raport_CpusMultiProcessing.addProbe(result) # adding result to raport
+                raport_cpus_multi_processing.add_probe(result) # adding result to report
             print(f"{message} {round(result, 3)} seconds")
+    print("test DONE.")
+    # Adding finished reports to list of reports
+    raports_list = []
+    raports_list.append(raport_1x_multi_threading)
+    raports_list.append(raport_4x_multi_threading)
+    raports_list.append(raport_4x_multi_processing)
+    raports_list.append(raport_cpus_multi_processing)
 
-    # Adding finished raports to list of raports
-    raportsList = []
-    raportsList.append(raport_1xMultiThreading)
-    raportsList.append(raport_4xMultiThreading)
-    raportsList.append(raport_4xMultiProcessing)
-    raportsList.append(raport_CpusMultiProcessing)
-
-    # Generating raport and saving to HTML file
-    raportGenerator = RaportGenerator(raportsList)
-    raportGenerator.saveToHtml()
+    # Generating report and saving to HTML file
+    raport_generator = ReportGenerator(raports_list)
+    raport_generator.save_to_html()
     
-
 
 if __name__ == "__main__":
     main()
