@@ -6,8 +6,7 @@ class ReportGenerator:
         self.author = "Lukasz Zlocki"
 
     def html_header(self):
-        html_part1 = '''
-        <!DOCTYPE html>
+        html_part1 = '''<!DOCTYPE html>
         <html>
         <head>
         <title>Multithreading/Multiprocessing benchmark results</title>
@@ -49,8 +48,7 @@ class ReportGenerator:
         <body>
         <h1>Multithreading/Multiprocessing benchmark results</h1>
         <p>
-        </p>
-        '''      
+        </p>'''
         return html_part1
 
     def html_environment(self):
@@ -59,11 +57,11 @@ class ReportGenerator:
             Python version: {self.report[0].pythonVersion}<br/>
             Interpreter: {self.report[0].interpreterName}<br/>
             Interpreter version: {self.report[0].interpreterVersion}<br/>
-            Operating system: {self.report[0].operatingSys}<br/>
+            Operating system: {self.report[0].operatingSystem}<br/>
             Operating system version: {self.report[0].operatingSysVersion}<br/>
             Processor: {self.report[0].processor}<br/>
             CPUs: {self.report[0].cpus}
-            </p>'''       
+            </p>'''
         return HtmlExecutionEnvironment
 
     def html_test_results(self):
@@ -118,7 +116,7 @@ class ReportGenerator:
                 <td>{'{:.3f}'.format(self.report[3].probes[4])}</td>
             </tr>
 
-            </table>'''           
+            </table>'''
         return html_test_results
 
     def html_summary(self):
@@ -141,14 +139,14 @@ class ReportGenerator:
                 <td>{'{:.3f}'.format(self.report[3].get_median_of_all_probes())}</td>
             </tr>
 
-            </table>'''   
+            </table>'''
         return html_summary
 
     def html_footer(self):
         html_footer = f'''<p>App author: {self.author}</p>
 
             </body>
-            </html>'''           
+            </html>'''
         return html_footer
 
     def show_html(self):

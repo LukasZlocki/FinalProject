@@ -29,7 +29,7 @@ class Report:
     def set_test_description(self, test_description):
         self.testDescription = test_description
 
-    # adding probe to 
+    # adding probe
     def add_probe(self, probe):
         probe = round(probe, 3)
         self.probes.append(probe)
@@ -39,8 +39,8 @@ class Report:
         return self.probes
 
     def get_median_of_all_probes(self):
-        medianValue = statistics.median(self.probes)
-        return medianValue 
+        median_value = statistics.median(self.probes)
+        return median_value
 
     def get_test_description(self):
         return self.testDescription
