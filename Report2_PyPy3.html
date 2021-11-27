@@ -1,0 +1,128 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Multithreading/Multiprocessing benchmark results</title>
+        <style>
+        body {
+        font-size: 10pt;
+        }
+
+        h2 {
+        padding-top: 10pt;
+        }
+
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed ;
+        }
+
+        td, th {
+        border: 2px solid #b9b9b9;
+        padding: 10px;
+        text-align: center;
+        width: 25% ;
+        }
+
+        th {
+        background-color: #d5d5d5;
+        }
+
+        td {
+        }
+
+        tr:nth-child(odd) {
+        background-color: #eeeeee;
+        }
+        </style>
+        </head>
+        <body>
+        <h1>Multithreading/Multiprocessing benchmark results</h1>
+        <p>
+        </p>
+        <h2>Execution environment</h2>
+            <p>
+            Python version: 3.8.12<br/>
+            Interpreter: PyPy<br/>
+            Interpreter version: 3.8.12 (9ef55f6fc369, Oct 24 2021, 20:12:27)
+[PyPy 7.3.7 with MSC v.1929 64 bit (AMD64)]<br/>
+            Operating system: Windows<br/>
+            Operating system version: 10<br/>
+            Processor: Intel64 Family 6 Model 58 Stepping 9, GenuineIntel<br/>
+            CPUs: 4
+            </p><h2>Test results</h2>
+            <p>The following table shows detailed test results:</p>
+            <table>
+            <tr>
+                <th>Execution:</th>
+                <th>1 thread (s)</th>
+                <th>4 threads (s)</th>
+                <th>4 processes (s)</th>
+                <th>process based on number of CPUs (s)</th>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td>0.209</td>
+                <td>0.245</td>
+                <td>0.527</td>
+                <td>0.473</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>0.223</td>
+                <td>0.266</td>
+                <td>0.487</td>
+                <td>0.605</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>0.214</td>
+                <td>0.271</td>
+                <td>0.528</td>
+                <td>0.531</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>0.198</td>
+                <td>0.268</td>
+                <td>0.500</td>
+                <td>0.500</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td>0.215</td>
+                <td>0.247</td>
+                <td>0.502</td>
+                <td>0.518</td>
+            </tr>
+
+            </table><h2>Summary</h2>
+            <p>The following table shows the median of all results:</p>
+            <table>
+            <tr>
+                <th>Execution:</th>
+                <th>1 thread (s)</th>
+                <th>4 threads (s)</th>
+                <th>4 processes (s)</th>
+                <th>process based on number of CPUs (s)</th>
+            </tr>
+
+            <tr>
+                <td>Median:</td>
+                <td>0.214</td>
+                <td>0.266</td>
+                <td>0.502</td>
+                <td>0.518</td>
+            </tr>
+
+            </table><p>App author: Lukasz Zlocki</p>
+
+            </body>
+            </html>
